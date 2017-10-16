@@ -1,0 +1,28 @@
+{
+  "name": "winston-local-aws",
+  "version": "1.0.0",
+  "description": "Save your logs locally and AWS Cloud Watch with winston module",
+  "main": "index.js",
+  "scripts": {
+    "test": "jasmine-node test/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ivanrios/winston-local-aws.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ivanrios/winston-local-aws/issues"
+  },
+  "homepage": "https://github.com/ivanrios/winston-local-aws#readme",
+  "dependencies": {
+    "aws-sdk": "^2.134.0",
+    "jasmine-node": "^1.14.5",
+    "smart-info": "^1.0.1",
+    "timethat": "0.0.3",
+    "winston": "^2.4.0",
+    "winston-aws-cloudwatch": "^1.6.0",
+    "winston-express-middleware": "^0.1.0"
+  }
+}

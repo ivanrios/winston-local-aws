@@ -1,0 +1,10 @@
+{
+    	"logFolder" : "./log",
+    	"awsConfig" : {
+	      "accessKeyId": "XXX",
+	      "secretAccessKey": "XXX",
+	      "region": "us-west-2"
+	    },
+	    "awsCloudTailGroupName"  : "xxx",
+	    "awsCloudTailStreamName" : "xxx"
+    }
