@@ -8,14 +8,17 @@ exports.awsCloudTailLogger =  function(configFile){
 
 
   var config = JSON.parse(fs.readFileSync(configFile)) || {};
-  var info = smartInfo.info(true);
+  smart = (config.showInfoDetails)? config.showInfoDetails : true
+  var info = smartInfo.info(smart);
 
 
-  if ( !fs.existsSync( config.logFolder ) )       
-    fs.mkdirSync( config.logFolder );
+  if (config.logFolder){ /*  For saving locally  */
+    if ( !fs.existsSync( config.logFolder ) )       
+      fs.mkdirSync( config.logFolder );
 
-  var localTransporterLog   = new winston.transports.File({ filename: config.logFolder + '/logs.log', timestamp: true, maxsize: 1000000 })
-  var localTransporterError = new winston.transports.File({ filename: config.logFolder + '/error.log', timestamp: true, maxsize: 1000000 })
+    var localTransporterLog   = new winston.transports.File({ filename: config.logFolder + '/logs.log', timestamp: true, maxsize: 1000000 })
+    var localTransporterError = new winston.transports.File({ filename: config.logFolder + '/error.log', timestamp: true, maxsize: 1000000 })
+  }
 
   var logTransporters = [localTransporterLog];
   var errorTransporters = [localTransporterError];
@@ -24,8 +27,8 @@ exports.awsCloudTailLogger =  function(configFile){
     AWS.config.region = "us-west-2" ;
     AWS.config.update(config.awsConfig);
     var awsCloud = {
-      logGroupName: config.awsCloudTailGroupName, // REQUIRED
-      logStreamName: config.awsCloudTailStreamName, // REQUIRED
+      logGroupName: config.awsConfig.cloudTailGroupName, // REQUIRED
+      logStreamName: config.awsConfig.cloudTailStreamName, // REQUIRED
       createLogGroup: true,
       createLogStream: true,
       DescribeLogStreams: true,
@@ -46,7 +49,7 @@ exports.awsCloudTailLogger =  function(configFile){
   }
 
 
-  var logger = new (winston.Logger)({
+  var _logger = new (winston.Logger)({
       transports: logTransporters,
       exceptionHandlers: errorTransporters,  
       exitOnError: false, 
@@ -66,6 +69,7 @@ exports.awsCloudTailLogger =  function(configFile){
         transports: errorTransporters
       })
   }
+  _obj.logger = _logger;
   
   return _obj;
 }
